@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load common_tags %}
+{% block title %}Reminder for {{ reminder.localised_start }}{% endblock title %}
+{% block extra_css %}
+    <link href="{{ STATIC_URL }}css/remindmelatr.css" rel="stylesheet">
+{% endblock extra_css %}
+{% block extra_js %}
+    <script src="{{ STATIC_URL }}js/bootstrap-typeahead.js"></script>
+    <script src="{{ STATIC_URL }}js/remindmelatr.js"></script>
+    <script>
+        $(document).ready(function() {
+            //$('.info-cell a').tooltip();
+            $('.info-cell a').popover()
+        });
+    </script>
+{% endblock extra_js %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li><a href="{% url 'reminders' %}">Reminders</a></li>
+    <li class="active">{{ reminder.localised_start }}</li>
+{% endblock breadcrumbs %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-8 center-span reminder-detail-wrap">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Reminder Details</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p><strong>{{ reminder.get_status_display }}</strong> reminder set for <strong>{{ reminder.localised_start|date:"G:i" }}</strong> on <strong>{{ reminder.localised_start|date:"d F Y" }}</strong>{% if reminder.snooze_count > 0 %} (snoozed {{ reminder.snooze_count }} time{{ reminder.snooze_count|pluralize }}){% endif %}.</strong></p>
+                        </div>
+                        <div class="col-md-12 reminder-content-wrap">
+                            {{ reminder.content|capfirst|urlize|linebreaks }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 center-span reminder-history-wrap">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Reminder History</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Description</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for history in history %}
+                                    <tr>
+                                        <td>{{ history.created|date:"d/m/y H:i" }}</td>
+                                        <td>{{ history.get_status_display }}</td>
+                                        <td>{{ history.description }}</td>
+                                        <td class="info-cell">
+                                            {% if history.extra_info %}
+                                                <a data-container="body" href="javascript:void" data-toggle="popover" data-placement="top"
+                                                        data-html="true" title="Reminder Content Changes"
+                                                        data-content="{{ history.extra_info|linebreaks }}"><span class="fui-info"></span></a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% empty %}
+                                    <tr><td colspan="4" align="center">No history entries yet</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel-footer pagination-footer" style="text-align: center;">
+                    {% common_paginate history 4 '' %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 center-span reminder-action-buttons">
+            <div class="button-wrap">
+                <div class="pull-left">
+                    <a href="{% url 'delete' reminder_id=reminder.id %}" class="btn btn-danger">
+                        <span class="fui-trash"></span> Delete
+                    </a>
+                </div>
+                <div class="pull-right">
+                    <a href="{% url 'edit' reminder_id=reminder.id %}?next={{ request.path }}" class="btn btn-inverse">
+                        <span class="fui-new"></span> Edit
+                    </a>
+                    {% if reminder.status != 1 and reminder.status != 5 and reminder.status != 6 %}
+                        <a href="{% url 'pause' reminder_id=reminder.id %}?next={{ request.path }}" class="btn btn-warning">
+                            <span class="fui-pause"></span> Pause
+                        </a>
+                    {% endif %}
+                    {% if reminder.status == 1 %}
+                        <a href="{% url 'unpause' reminder_id=reminder.id %}?next={{ request.path }}" class="btn btn-warning">
+                            <span class="fui-play"></span> Activate
+                        </a>
+                    {% endif %}
+                    {% if reminder.status == 4 %}
+                        <a href="{% url 'snooze' reminder_id=reminder.id %}?next={{ request.path }}" class="btn btn-info">
+                            <span class="fui-time"></span> Snooze
+                        </a>
+                    {% endif %}
+                    {% if reminder.status != 5 %}
+                        <a href="{% url 'complete' reminder_id=reminder.id %}" class="btn btn-primary">
+                            <span class="fui-check-inverted"></span> Complete
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

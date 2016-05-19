@@ -1,0 +1,29 @@
+{% load i18n %}
+<div class="pagination">
+    <ul>
+        <li class="previous {% if current_page == 1 %}disabled{% endif %}">
+            {% if current_page > 1 %}
+                <a href="?q={{ search_term }}&page={{ prev_page }}" title="{% trans "Go to page " %}{{ prev_page }}" class="fui-arrow-left"></a>
+            {% else %}
+                <a href="javascript:" class="fui-arrow-left disabled"></a>
+            {% endif %}
+        </li>
+        {% for page_number in pages_shown %}
+            <li class="{% ifequal page_number current_page %}active{% endifequal %}">
+                {% ifequal page_number current_page %}
+                    <a href="javascript:">{{ page_number }}</a>
+                {% else %}
+                    <a href="?page={{ page_number }}{{ GET_string }}"
+                       title="{% trans "Go to page" %} {{ page_number }}">{{ page_number }}</a>
+                {% endifequal%}
+            </li>
+        {% endfor %}
+        <li class="next {% if current_page == num_pages %}disabled{% endif %}">
+            {% if current_page < num_pages %}
+                <a href="?q={{ search_term }}&page={{ next_page }}" title="{% trans "Go to page " %}{{ next_page }}" class="fui-arrow-right"></a>
+            {% else %}
+                <a href="javascript:" class="fui-arrow-right"></a>
+            {% endif %}
+        </li>
+    </ul>
+</div>

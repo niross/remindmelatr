@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load i18n account socialaccount %}
+{% block title %}Email Verification{% endblock title %}
+{% block extra_css %}
+    <link href="{{ STATIC_URL }}css/remindmelatr.css" rel="stylesheet">
+{% endblock extra_css %}
+{% block extra_js %}
+    <script src="{{ STATIC_URL }}js/remindmelatr.js"></script>
+{% endblock extra_js %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-6 center-span">
+            <div class="panel panel-success login-panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{% trans 'Email Verification' %}</h3>
+                </div>
+                <div class="panel-body">
+                    <p>{% trans 'We have sent an email to you for verification. Follow the link provided to finalise the signup process.' %}</p>
+                    <p>Please <a href="{% url 'website_contact' %}">contact us</a> if you do not receive it within a few minutes.</p>
+                    <div class="btn-wrap">
+                        <a href="{% url 'account_login' %}" class="btn btn-success"><span class="fui-check-inverted"></span> Sign in now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+
+
+
+

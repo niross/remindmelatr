@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="dialog quick-add-dialog">
+        <form class="form-inline" action="{% url 'new' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <span><strong>Quick Reminder: </strong></span>
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="id_remind_on">Remind me on</label>
+                <input type="text" class="form-control" id="id_remind_on" name="remind_on" placeholder="Remind me on">
+                <span class="input-icon fui-calendar-solid"></span>
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="id_remind_at">Remind me at</label>
+                <input type="text" class="form-control" id="id_remind_at" name="remind_at" placeholder="Remind me at">
+                <span class="input-icon fui-time"></span>
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="id_content">Remind me to</label>
+                <input type="text" class="form-control" id="id_content" name="content" placeholder="Remind me to">
+                <span class="input-icon fui-chat"></span>
+            </div>
+            <button class="btn btn-primary"><span class="fui-check-inverted"></span></button>
+        </form>
+    </div>
+</div>

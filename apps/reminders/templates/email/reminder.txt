@@ -1,0 +1,14 @@
+{% load tz %}
+{% localtime off %}
+    Hi {{ reminder.user.username }},
+
+    At {{ reminder.created|date:"H:i" }} on {{ reminder.created|date:"d/m/y" }} you created a reminder on {{ site.name }}.
+
+    This reminder was set for <strong>{{ reminder.start_time|date:"H:i" }}</strong> on <strong>{{ reminder.start_date|date:"d/m/y" }}</strong> and the content is below.
+
+
+    {{ reminder.content|linebreaks }}
+
+
+    From your friends at {{ site.name }}.
+{% endlocaltime %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}404 - Page Not Found{% endblock title %}
+{% block extra_css %}
+    <link href="{{ STATIC_URL }}css/remindmelatr.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/website.css" rel="stylesheet">
+{% endblock extra_css %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="active">There's nothing here</li>
+{% endblock breadcrumbs %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-8 center-span">
+            <div class="panel panel-success info-panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Oh oh, there is nothing here...</h3>
+                </div>
+                <div class="panel-body">
+                    <p class="heading">404 Error - Page Not Found</p>
+                    <p>We were unable to find the page you were looking for. Please check the url and try again.</p>
+                    <p>Or you can always <a href="{% url 'home' %}">go home</a> and start over.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

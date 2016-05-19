@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}Snooze Reminder{% endblock title %}
+{% block extra_css %}
+    <link href="{{ STATIC_URL }}css/remindmelatr.css" rel="stylesheet">
+{% endblock extra_css %}
+{% block extra_js %}
+    <script src="{{ STATIC_URL }}js/bootstrap-typeahead.js"></script>
+    <script src="{{ STATIC_URL }}js/remindmelatr.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#id_snooze_until').focus();
+        });
+    </script>
+{% endblock extra_js %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="active">Snooze Reminder</li>
+{% endblock breadcrumbs %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-10 center-span">
+            <form role="form" method="POST" class="basic-reminder-form">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                    <div class="col-md-8 center-span">
+                        <div class="alert alert-danger">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            {{ form.non_field_errors.0 }}
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="row">
+                    <div class="col-md-6 center-span">
+                        <div class="popover top visible-popover">
+                            <div class="arrow"></div>
+                            <h3 class="popover-title">Snooze Reminder Until...</h3>
+                            <div class="popover-content">
+                                <p><strong>Enter a date or time in the future and we will remind you again.</strong></p>
+                                <p>e.g. 1 Hour, 3 Days, 6 months, 1 Year, Next Wednesday, 10/12</p>
+                            </div>
+                        </div>
+                        <div class="form-group{% if form.snooze_until.errors %} has-error{% endif %}">
+                            {{ form.snooze_until }}
+                            {% if form.snooze_until.errors %}<span class="help-block">{{ form.snooze_until.errors.0 }}</span>{% endif %}
+                        </div>
+                        {% if next %}<input type="hidden" name="next" value="{{ next }}"/>{% endif %}
+                        <div class="submit-wrap" style="padding-top:20px;">
+                            <button type="submit" class="btn btn-hg btn-primary btn-block"><i class="fui-time"></i> Snooze Reminder</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,12 @@
+{% load i18n %}
+{% load account %}
+
+{% user_display user as user_display %}
+<div class="row">
+    <div class="col-md-5 center-span">
+        <div class="alert alert-danger">
+            <button class="close fui-cross" data-dismiss="alert"></button>
+            <p><strong>{% trans "Note" %}:</strong> {% blocktrans %}you are already logged in as {{ user_display }}.{% endblocktrans %}</p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block extra_css %}
+    <link href="{{ STATIC_URL }}css/remindmelatr.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/website.css" rel="stylesheet">
+{% endblock extra_css %}
+{% block title %}500 - Internal Server Error{% endblock title %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="active">It's Broken</li>
+{% endblock breadcrumbs %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-8 center-span">
+            <div class="panel panel-success info-panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">It's not you, it's us...</h3>
+                </div>
+                <div class="panel-body">
+                    <p class="heading">Status 500 - Internal Error</p>
+                    <p>It looks like the page you were trying to view is broken.</p>
+                    <p>If you keep having problems perhaps you could <a href="">contact us</a> and let us know.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

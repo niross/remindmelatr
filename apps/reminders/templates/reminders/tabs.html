@@ -1,0 +1,15 @@
+<ul class="nav nav-tabs nav-append-content">
+    <li{% if tab == 'overdue' %} class="active"{% endif %}>
+        <a href="{% url 'overdue' %}">Overdue</a>
+    </li>
+    <li{% if tab == 'upcoming' %} class="active"{% endif %}>
+        <a href="{% url 'upcoming' %}">Upcoming</a>
+    </li>
+    <li{% if tab == 'paused' %} class="active"{% endif %}>
+        <a href="{% url 'paused' %}">Paused</a>
+    </li>
+    <li{% if tab == 'completed' %} class="active"{% endif %}>
+        <a href="{% url 'completed' %}">Completed</a>
+    </li>
+</ul>
+

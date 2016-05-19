@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load common_tags %}
+{% block extra_css %}
+    <link href="{{ STATIC_URL }}css/remindmelatr.css" rel="stylesheet">
+{% endblock extra_css %}
+{% block extra_js %}
+    <script src="{{ STATIC_URL }}js/bootstrap-typeahead.js"></script>
+    <script src="{{ STATIC_URL }}js/remindmelatr.js"></script>
+    <script>
+        function toggle_buttons() {
+            if ($('tbody :checkbox:checked').length > 0) {
+                $('.button-wrap button, .button-wrap a').removeClass('disabled');
+            }
+            else {
+                $('.button-wrap button, .button-wrap a').addClass('disabled');
+            }
+            var ids = [];
+            $('tbody :checkbox:checked').each(function(index, el) {
+                ids.push($(el).parents('tr').attr('id'));
+            });
+            $('.button-form #reminder_ids').val(ids.join(','));
+        }
+        $(document).ready(function() {
+            $('.table tbody :checkbox').on('check uncheck toggle', function (e) {
+                toggle_buttons();
+            });
+            toggle_buttons();
+
+            // Unbind the flat ui tab click handler
+            $(".nav-tabs a").unbind('click');
+        });
+    </script>
+{% endblock extra_js %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12 center-span reminders">
+            {% block tab_headers %}
+            {% endblock tab_headers %}
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <label class="checkbox no-label toggle-all" for="checkbox-table-1">
+                                            <span class="icons">
+                                                <span class="first-icon fui-checkbox-unchecked"></span>
+                                                <span class="second-icon fui-checkbox-checked"></span>
+                                            </span>
+                                            <input type="checkbox" value="" id="checkbox-table-1" data-toggle="checkbox">
+                                        </label>
+                                    </th>
+                                    <th>{% block date_field_title %}Due{% endblock date_field_title %}</th>
+                                    <th>Reminder</th>
+                                    <th>Snoozed</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% block table %}
+                                {% endblock table %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 pagination-wrap">
+                    {% common_paginate reminders 8 '' %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 button-wrap reminders-button-wrap">
+            {% block buttons %}
+            {% endblock buttons %}
+        </div>
+    </div>
+{% endblock content %}

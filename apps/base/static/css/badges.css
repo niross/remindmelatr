@@ -1,0 +1,37 @@
+.trophy {
+    margin: 0 8px 0px 8px;
+    float:left;
+    font-size:70px;
+    color:#BDC3C7;
+}
+.trophy i {
+    color:#EDEFF1;
+    padding: 7px;
+    border-radius: 50%;
+    background-color:#BDC3C7;
+    padding: 15px 14px 13px 13px;
+}
+.unknown-trophy i {
+    padding: 10px 12px 9px 12px;
+}
+.profile-complete i {
+    background-color: #8e44ad;
+    font-size: 58px;
+    padding: 17px 17px 12px 17px;
+}
+.ten-challenges-created i {
+    background-color: #d35400;
+    font-size: 58px;
+}
+.fifty-challenges-created i {
+    background-color: #f39c12;
+    font-size: 58px;
+}
+.hundred-challenges-created i {
+    background-color: #f1c40f;
+    font-size: 58px;
+}
+.ten-friendlies-created i {
+    background-color: #27ae60;
+    font-size: 58px;
+}

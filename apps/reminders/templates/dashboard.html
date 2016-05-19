@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block extra_css %}
+    <link href="{{ STATIC_URL }}css/fullcalendar.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/remindmelatr.css" rel="stylesheet">
+{% endblock extra_css %}
+{% block extra_js %}
+    <script src="{{ STATIC_URL }}js/fullcalendar.js"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap-typeahead.js"></script>
+    <script src="{{ STATIC_URL }}js/remindmelatr.js"></script>
+    <script>
+        $(document).ready(function() {
+            var date = new Date();
+            var d = date.getDate();
+            var m = date.getMonth();
+            var y = date.getFullYear();
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                editable: false,
+                timeFormat: 'H:mm',
+                events: [
+                    {% for reminder in reminders %}
+                        {% with dt=reminder.start_date tm=reminder.start_time %}
+                            {
+                                allDay: false,
+                                start: {{ reminder.as_timestamp }},
+                                url: '{{ reminder.get_absolute_url }}',
+                                className: 'calendar-reminder-{{ reminder.get_status_display|lower }}'
+                            }{% if not forloop.last %},{% endif %}
+                        {% endwith %}
+                    {% endfor %}
+                ]
+            });
+
+            // Toggle help
+            $('.help-toggle a').click(function() {
+                $('#quick-add-popover').toggleClass('visible-popover');
+                return false;
+            });
+            $('.fake-contact-link').click(function() {
+                $('.contact-popup-title').click();
+                return false;
+            });
+            $('.quick-add-link').click(function() {
+                $('body').animate({scrollTop: $('.qa-panel').offset().top-15}, 'slow', function() {
+                    $('.help-toggle a').click();
+                    $('#id_content').focus();
+                });
+                return false;
+            });
+        });
+    </script>
+{% endblock extra_js %}
+{% block breadcrumbs %}
+    <li class="active">Your Dashboard</li>
+{% endblock breadcrumbs %}
+{% block content %}
+    {% if user.show_welcome_message %}
+        <div class="row">
+            <div class="col-md-8 center-span">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <form method="POST" action="{% url 'update_setting' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="field" value="show_welcome_message"/>
+                            <input type="hidden" name="value" value="0" />
+                            <input type="hidden" name="next" value="{{ request.path }}"/>
+                            <button type="submit" class="close fui-cross"></button>
+                        </form>
+                        <h3 class="panel-title">Welcome!</h3>
+                    </div>
+                    <div class="panel-body quick-add-panel">
+                        <p>Welcome to {{ site.name }}!</p>
+                        <p>We hope you get as much benefit as we do from setting quick reminders for yourself throughout the day.</p>
+                        <p>To get started you can add a reminder using the <a href="#" class="quick-add-link">quick add form</a> below or via the <a href="{% url 'new' %}">add reminder</a> link in the top menu.</p>
+                        <p>You can manage <a href="{% url 'overdue' %}">overdue</a>, <a href="{% url 'upcoming' %}">upcoming</a>, <a href="{% url 'paused' %}">paused</a> and <a href="{% url 'completed' %}">completed</a> reminders at any time via the reminders menu at the top of the page.</p>
+                        <p>If you need help or have any feedback please don't hesitate to contact us <a class="fake-contact-link" href="#">via the site</a> or <a href="mailto:remember@remindmelatr.com">via email</a>.</p>
+                        <p>The {{ site.name }} team</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <div class="row">
+        <div class="col-md-8 center-span">
+            <div class="panel panel-info qa-panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Quick Add</h3>
+                </div>
+                <div class="panel-body quick-add-panel">
+                    <form method="POST" action="{% url 'dashboard' %}">
+                        {% csrf_token %}
+                        <div class="form-group{% if quick_reminder_form.errors %} has-error{% endif %}">
+                            <div class="input-group input-group-hg focus">
+                                <input class="form-control" id="id_content" type="text" name="content" placeholder="{{ demo_reminder }}"
+                                    value="{{ quick_reminder_form.content.value|default_if_none:"" }}"/>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><span class="fui-check-inverted"></span></button>
+                                </span>
+                            </div>
+                            {% if quick_reminder_form.content.errors %}
+                                <div class="has-error">
+                                    <span class="help-block">{{ quick_reminder_form.content.errors.0 }}</span>
+                                </div>
+                            {% endif %}
+                            <div class="help-toggle"><a href="#">Need Help?</a></div>
+                        </div>
+                    </form>
+                    <div class="popover bottom" id="quick-add-popover">
+                        <div class="arrow"></div>
+                        <div class="popover-content">
+                            <p><strong>How to add a quick reminder</strong></p>
+                            <p>
+                                To add a reminder for today enter the reminder time and content:
+                                <ul>
+                                    <li>2pm call the bank</li>
+                                    <li>15:00 take the kids to the pool</li>
+                                    <li>Midday put the dinner on</li>
+                                </ul>
+                            </p>
+                            <p>
+                                To add a reminder for a day in the future add a day or date:
+                                <ul>
+                                    <li>Email Bob Monday 10am</li>
+                                    <li>Call Cindy 18:30 next Monday</li>
+                                    <li>02/12/{% now "y" %} 6am walk the dog</li>
+                                    <li>Start dancing 8pm new years eve</li>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 center-span dashboard">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="panel panel-danger stats-panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Overdue</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="stats-icon">
+                                <a href="{% url 'overdue' %}">
+                                    <i class="fa {% if overdue.count > 0 %}fa-exclamation-triangle{% else %}fa-thumbs-up{% endif %}"></i>
+                                </a>
+                            </div>
+                            <h3><a href="{% url 'overdue' %}">{{ overdue.count }}</a></h3>
+                            <div class="stats-summary">
+                                <a href="{% url 'overdue' %}">Overdue Reminder{{ overdue.count|pluralize }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="panel panel-warning stats-panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Upcoming</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="stats-icon">
+                                <a href="{% url 'upcoming' %}">
+                                    <i class="fa fa-clock-o"></i>
+                                </a>
+                            </div>
+                            <h3><a href="{% url 'upcoming' %}">{{ outstanding.count }}</a></h3>
+                            <div class="stats-summary">
+                                <a href="{% url 'upcoming' %}">Upcoming Reminder{{ outstanding.count|pluralize }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="panel panel-success stats-panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Completed</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="stats-icon">
+                                <a href="{% url 'completed' %}">
+                                    <i class="fa fa-check-circle"></i>
+                                </a>
+                            </div>
+                            <h3><a href="{% url 'completed' %}">{{ completed.count }}</a></h3>
+                            <div class="stats-summary">
+                                <a href="{% url 'completed' %}">Completed Reminder{{ completed.count|pluralize }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 center-span calendar-wrap">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Calendar</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="calendar" class="col-md-12" style="width:900px:"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,22 @@
+<div class="contact-popup">
+    <div class="contact-popup-title" data-toggle="tooltip" title="Need help or have an awesome idea to improve the site? Get in touch now!">
+        <div class="pull-left">
+            <p>Contact Us</p>
+        </div>
+        <div class="pull-right">
+            <span class="fa fa-bullhorn"></span>
+        </div>
+    </div>
+    <div class="contact-popup-body">
+        <form action="{% url 'contact' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+            <p>Send us a message below and we will get back to you as soon as possible</p>
+            <div>{{ contact_form.message }}</div>
+            <div class="btn-wrap">
+                <button type="submit" class="btn btn-sm btn-primary">Send</button>
+            </div>
+            <input type="hidden" name="user" value="{{ user.id }}" />
+        </form>
+    </div>
+</div>

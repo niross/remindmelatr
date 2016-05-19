@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block title %}Remember The Little Things{% endblock title %}
+{% block page_class %}homepage{% endblock page_class %}
+{% block extra_css %}
+    <link href="{{ STATIC_URL }}css/remindmelatr.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/website.css" rel="stylesheet">
+{% endblock extra_css %}
+{% block extra_js %}
+{% endblock extra_js %}
+{% block breadcrumbs %}{% endblock breadcrumbs %}
+{% block pre %}
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=282028445255046";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <div class="jumbotron home-jumbotron">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7 jumbo-text">
+                  <h1>Let us <span class="embolden">remember the little things</span> for you!</h1>
+                  <p>Quickly get your todo list out of your head and get reminders while you are on the go with Remind Me Latr!</p>
+                  <p>Let us help take your mind off the small things so you can concentrate on the more important things.</p>
+                  <p class="login-action">What are you waiting for? <a class="btn btn-hg btn-primary" href="{% url 'account_signup' %}"><span class="fui-check-inverted"></span> Sign up for free now!</a>
+                </div>
+                <div class="col-md-5 jumbo-image">
+                    <div class="image-wrap">
+                        <img class="img-rounded" src="{{ STATIC_URL }}images/remindmelater-postit-girl.jpg" title="{{ site.name }} - Remember the little things" alt="{{ site.name }} - Remember the little things"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock pre %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12 share-wrap">
+            <a class="btn btn-hg btn-primary btn-social-twitter" target="_blank" href="https://twitter.com/RemindMeLatr1" title="Follow us on Twitter"><span class="fui-twitter"></span> Follow us on Twitter</a>
+            <a class="btn btn-default btn-social-facebook" target="_blank" href="https://www.facebook.com/remindmelatrapp" title="Like us on Facebook"><span class="fui-facebook"></span> Like us on Facebook</a>
+            <a href="https://plus.google.com/105848329811701267517" target="_blank" rel="publisher" class="btn btn-hg btn-primary btn-social-googleplus" title="Follow us on Google+"><span class="fui-googleplus"></span> Follow us on Google+</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 how-it-works-wrap">
+            <h4>How it works <small>in 3 easy steps</small></h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default img-panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">1. Create a reminder</h3>
+                </div>
+                <div class="panel-body">
+                    <img class="img-rounded" src="{{ STATIC_URL }}images/remind-me-later-new-reminder.png" title="{{ site.name }} - How it works - Create Reminder" alt="{{ site.name }} - How it works - Create Reminder"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default img-panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">2. Get on with your life</h3>
+                </div>
+                <div class="panel-body">
+                    <img class="img-rounded" src="{{ STATIC_URL }}images/iStock_BusinessManOnVacation_350.jpg" title="{{ site.name }} - How it works - Relax" alt="{{ site.name }} - How it works - Relax"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default img-panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">3. Get reminded</h3>
+                </div>
+                <div class="panel-body">
+                    <img class="img-rounded" src="{{ STATIC_URL }}images/remind-me-later-reminder-email-2.png" title="{{ site.name }} - How it works - Get reminded" alt="{{ site.name }} - How it works - Get reminded"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 testimonials-wrap">
+            <h4>Testimonials <small>from some happy users</small></h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <blockquote>
+                <p>Really good. Remindmelatr has really worked for me. Best. Site. Ever!</p>
+                <footer>Matt C.</footer>
+            </blockquote>
+        </div>
+        <div class="col-md-4">
+            <blockquote>
+                <p>I use http://remindmelatr.com all the time!</p>
+                <footer>Tlly N.</footer>
+            </blockquote>
+        </div>
+        <div class="col-md-4">
+            <blockquote>
+                <p>Very easy to use.</p>
+                <footer>Kim B.</footer>
+            </blockquote>
+        </div>
+    </div>
+{% endblock content %}
+{% block post %}
+    <div class="dialog coming-soon-dialog">
+        <h6><span class="fa fa-android"></span> Android app coming soon. Watch this space!</h6>
+    </div>
+{% endblock post %}

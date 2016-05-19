@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load i18n account socialaccount %}
+{% block title %}Sign Up{% endblock title %}
+{% block extra_css %}
+    <link href="{{ STATIC_URL }}css/select2.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/remindmelatr.css" rel="stylesheet">
+{% endblock extra_css %}
+{% block extra_js %}
+    <script src="{{ STATIC_URL }}js/select2.min.js"></script>
+    {% providers_media_js %}
+    <script>
+        $(document).ready(function() {
+            $(".tzselect").select2({
+                placeholder: "Select your timezone",
+                allowClear: false,
+                width: '100%',
+            });
+        });
+    </script>
+{% endblock extra_js %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="active">{{ account.get_provider.name }} Sign Up</li>
+{% endblock breadcrumbs %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-6 center-span">
+            <div class="panel panel-success login-panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{% trans 'Sign Up' %}</h3>
+                </div>
+                <div class="panel-body">
+                    <p>{% blocktrans with provider_name=account.get_provider.name site_name=site.name %}You are about to use your {{provider_name}} account to login to {{site_name}}. As a final step, please complete the following form:{% endblocktrans %}</p>
+                    <form class="form-horizontal" role="form" method="post" action="{% url 'socialaccount_signup' %}">
+                        {% csrf_token %}
+                        <div class="form-group{% if form.email.errors %} has-error{% endif %}">
+                            <label for="id_email" class="col-sm-3 control-label">Email</label>
+                            <div class="col-sm-7">
+                                <input id="id_email" maxlength="30" class="form-control" name="email"
+                                    placeholder="Email Address" type="email" value="{{ form.email.value|default_if_none:"" }}">
+                                {% if form.email.errors %}<span class="help-block">{{ form.email.errors.0 }}</span>{% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group{% if form.timezone.errors %} has-error{% endif %}">
+                            <label for="id_email" class="col-sm-3 control-label">Timezone</label>
+                            <div class="col-sm-7">
+                                {{ form.timezone }}
+                                {% if form.timezone.errors %}<span class="help-block">{{ form.timezone.errors.0 }}</span>{% endif %}
+                            </div>
+                        </div>
+                        {% if redirect_field_value %}
+                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                        {% endif %}
+                        <div class="btn-wrap">
+                            <button type="submit" class="btn btn-success">
+                                <span class="fui-check-inverted"></span> {% trans "Sign me up!" %}
+                            </button>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+
+
+
+
+
+

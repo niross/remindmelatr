@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load account %}
+{% load url from future %}
+{% block body_class %}{% endblock body_class %}
+{% block title %}{% endblock title %}
+
+{% block content %}
+<div class="row">
+    <div class="span6 offset3 login-wrap">
+        <h1 style="text-align:center;">
+            <a href="{% url 'account_login' %}">
+              <img src="{{ STATIC_URL }}images/icons/Girl_2x.png" alt="" class="retina-ready" width="59" height="49">{{ site.name }}
+            </a>
+        </h1>
+        <div class="row">
+            <div class="span5 login-body center-span">
+                {% block auth_form %}
+                {% endblock auth_form %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

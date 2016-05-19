@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Delete Reminder{% endblock title %}
+{% block extra_css %}
+    <link href="{{ STATIC_URL }}css/remindmelatr.css" rel="stylesheet">
+{% endblock extra_css %}
+{% block extra_js %}
+    <script src="{{ STATIC_URL }}js/bootstrap-typeahead.js"></script>
+    <script src="{{ STATIC_URL }}js/remindmelatr.js"></script>
+    <script>
+        $(document).ready(function() {
+        });
+    </script>
+{% endblock extra_js %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="active">Delete Reminder</li>
+{% endblock breadcrumbs %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-10 center-span">
+            <form role="form" method="POST" class="basic-reminder-form" action="{% url 'delete' reminder_id=reminder.id %}">
+                {% csrf_token %}
+                {% if next %}
+                    <input type="hidden" name="next" value="{{ next }}"/>
+                {% endif %}
+                <div class="row">
+                    <div class="col-md-6 center-span">
+                        <div class="popover top visible-popover">
+                            <h3 class="popover-title">Delete Reminder...</h3>
+                            <div class="popover-content">
+                                <p><strong>Are you sure you want to delete the below reminder?</strong></p>
+                                {{ reminder.content|linebreaks|urlize }}
+                            </div>
+                        </div>
+                        <div class="submit-wrap" style="padding-top:20px;">
+                            <button type="submit" class="btn btn-hg btn-danger btn-block">
+                                    <i class="fui-trash"></i> Delete Reminder</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

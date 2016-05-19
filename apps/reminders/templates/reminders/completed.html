@@ -1,0 +1,55 @@
+{% extends 'reminders/reminders_base.html' %}
+{% block title %}Completed Reminders{% endblock title %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="active">Reminders</li>
+{% endblock breadcrumbs %}
+{% block tab_headers %}
+    {% include 'reminders/tabs.html' with tab='completed' %}
+{% endblock tab_headers %}
+{% block date_field_title %}Completed{% endblock date_field_title %}
+{% block table %}
+    {% for reminder in reminders %}
+        <tr class="tip" id="{{ reminder.id }}">
+            <td>
+                <label class="checkbox no-label" for="checkbox-table-{{ forloop.counter }}">
+                    <span class="icons">
+                        <span class="first-icon fui-checkbox-unchecked"></span>
+                        <span class="second-icon fui-checkbox-checked"></span>
+                    </span>
+                    <input type="checkbox" value="" id="checkbox-table-{{ forloop.counter }}" data-toggle="checkbox">
+                </label>
+            </td>
+            <td>
+                <span class="fui-check-inverted complete-icon" title="Complete!"></span>&nbsp;
+                {{ reminder.completion_date|date:"d M Y, H:i" }}
+            </td>
+            <td><a href="{% url 'reminder' reminder_id=reminder.id %}">{{ reminder.content|truncatechars:65 }}</a></td>
+            <td>{% if reminder.snooze_count > 0 %}{{ reminder.snooze_count }} time{{ reminder.snooze_count|pluralize }}{% else %}Never{% endif %}</td>
+            <td class="button-cell">
+                <a href="{% url 'edit' reminder_id=reminder.id %}?next={{ request.path }}" class="list-button" title="Edit reminder">
+                    <span class="fui-new text-primary"></span>
+                </a>
+                <a href="{% url 'delete' reminder_id=reminder.id %}?next={{ request.path }}" class="list-button" title="Delete reminder">
+                    <span class="fui-trash text-primary"></span>
+                </a>
+            </td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="5" class="text-center">You don't have any completed reminders yet. <a href="{% url 'new' %}">Create some now!</a></td>
+        </tr>
+    {% endfor %}
+{% endblock table %}
+{% block buttons %}
+    <div class="pull-left">
+        <form method="POST" action="{% url 'delete_multiple' %}" class="button-form">
+            {% csrf_token %}
+            <input type="hidden" name="reminder_ids" id="reminder_ids" />
+            <input type="hidden" name="next" value="{{ request.path }}" />
+            <button class="btn btn-danger disabled multi-button delete-reminders"><span class="fui-trash"></span> Delete Reminders</button>
+        </form>
+    </div>
+    <div class="pull-right">
+    </div>
+{% endblock buttons %}

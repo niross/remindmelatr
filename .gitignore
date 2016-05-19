@@ -1,0 +1,10 @@
+*.pyc
+/lib
+/include
+/local
+/share
+/src
+/docs
+/static
+.idea
+celerybeat-schedule

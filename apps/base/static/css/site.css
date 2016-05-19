@@ -1,0 +1,92 @@
+html, body {height: 100%;}
+.page-wrap {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    /* Negative indent footer by it's height */
+    margin: 0 auto -106px;
+    padding: 0 0 106px;
+}
+.bottom-menu {
+    height: 106px;
+}
+.main-content {
+}
+.help-block {
+    text-align: right;
+    font-size: 12px;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    margin-top: 2px;
+}
+.alert {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.center-span {
+    margin-left: auto;
+    margin-right: auto;
+    float: none;
+}
+.logo-satisfy {
+    font-family: 'Satisfy', cursive;
+    font-size: 27px;
+}
+.satisfy {
+    font-family: 'Satisfy', cursive;
+}
+.logo-beta {
+    font-size: 15px;
+    margin-left: 4px;
+}
+.logout-panel .panel-body p {
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.btn-wrap {
+    text-align: right;
+}
+.btn-wrap button, .btn-wrap input {
+    margin-right: 10px;
+}
+.login-panel form {
+    margin-top: 30px;
+}
+.login-panel .panel-footer {
+    text-align: center;
+}
+.login-panel .checkbox-label span {
+    margin-top: 5px;
+    margin-left: 10px;
+}
+.login-panel .submit-wrap {
+    margin-top: 40px;
+}
+.login-panel .remember-wrap {
+    margin-top: 5px;
+}
+.login-panel .social-login-buttons {
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+.login-panel .btn-social-facebook, .login-panel .btn-social-twitter {
+    width: 210px;
+}
+.login-panel .btn-social-facebook {
+    margin-left: 3px;
+}
+.login-panel .forgot {
+    text-align: right;
+    font-size: 14px;
+    margin-top: 2px;
+    color: lightgray;
+}
+.login-panel .control-label {
+    margin-left: 10px;
+}
+.info-section h6 {
+    margin-top: 25px;
+}
+.login-panel .select {
+}

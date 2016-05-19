@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load i18n account socialaccount %}
+{% block title %}Confirm Your Email Address{% endblock title %}
+{% block extra_css %}
+    <link href="{{ STATIC_URL }}css/remindmelatr.css" rel="stylesheet">
+{% endblock extra_css %}
+{% block extra_js %}
+    <script src="{{ STATIC_URL }}js/remindmelatr.js"></script>
+{% endblock extra_js %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-6 center-span">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{% trans 'Confirm Your Email Address' %}</h3>
+                </div>
+                <div class="panel-body">
+                    {% if confirmation %}
+                        {% user_display confirmation.email_address.user as user_display %}
+                        <p>{% blocktrans with confirmation.email_address.email as email %}Please confirm that <a href="mailto:{{email}}">{{ email }}</a> is the correct email address for user {{ user_display }}.{% endblocktrans %}</p>
+
+                        <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+                            {% csrf_token %}
+                            <div class="btn-wrap">
+                                <button type="submit" class="btn btn-success">
+                                    <span class="fui-check-inverted"></span> {% trans 'Confirm email address' %}</button>
+                            </div>
+                        </form>
+                    {% else %}
+                        {% url 'account_email' as email_url %}
+                        <p>{% blocktrans %}This email confirmation link has expired or is invalid. Please <a href="{{ email_url }}">issue a new email confirmation request</a>.{% endblocktrans %}</p>
+                    {% endif %}
+                </div>
+                <div class="panel-footer">
+                    {% url 'website_contact' as contact_url %}
+                    {% blocktrans %}Please <a href="{{ contact_url }}">contact us</a> if you have any trouble creating your account.{% endblocktrans %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

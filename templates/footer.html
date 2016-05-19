@@ -1,0 +1,32 @@
+{% load common_tags %}
+<div class="bottom-menu">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 navbar-brand">
+              <span class="logo-satisfy">Remind Me Latr</span>
+            </div>
+            <div class="col-md-8">
+                <ul class="bottom-links">
+                    <li class="{% navactive request 'about' %}">
+                        <a href="{% url 'about' %}">About Us</a>
+                    </li>
+                    <li class="{% navactive request 'privacy' %}">
+                        <a href="{% url 'privacy' %}">Privacy</a>
+                    </li>
+                    <li class="{% navactive request 'terms' %}">
+                        <a href="{% url 'terms' %}">Terms</a>
+                    </li>
+                    <!--<li><a href="#TODO">Follow Us</a></li>-->
+                    <li><a href="{% url 'website_contact' %}">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2">
+                <ul class="bottom-icons">
+                    <li><a target="_blank" href="https://www.facebook.com/remindmelatrapp" class="fui-facebook"></a></li>
+                    <li><a target="_blank" href="https://twitter.com/RemindMeLatr1" class="fui-twitter"></a></li>
+                    <li><a target="_blank" href="https://plus.google.com/105848329811701267517" class="fui-googleplus"></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+{% load socialaccount %}
+<div class="row">
+    {% for provider in socialaccount.providers %}
+        {% if provider.id == "openid" %}
+            {% for brand in provider.get_brands %}
+              <a title="{{ brand.name }}" class="btn btn-default btn-sm btn-social-{{ brand.id }}"
+                href="{% provider_login_url provider.id openid=brand.openid_url process=process %}"><span class="fui-{{ brand.id }}"></span> Connect with {{ brand.name }}</a>
+            {% endfor %}
+        {% endif %}
+        <a title="{{ provider.name }}" class="btn btn-default btn-sm btn-social-{{ provider.id }}"
+            href="{% provider_login_url provider.id process=process %}"><span class="fui-{{ provider.id }}"></span> Connect with {{ provider.name }}</a>
+    {% endfor %}
+</div>

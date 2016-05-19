@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Complete Reminder{% endblock title %}
+{% block extra_css %}
+    <link href="{{ STATIC_URL }}css/remindmelatr.css" rel="stylesheet">
+{% endblock extra_css %}
+{% block extra_js %}
+    <script src="{{ STATIC_URL }}js/bootstrap-typeahead.js"></script>
+    <script src="{{ STATIC_URL }}js/remindmelatr.js"></script>
+    <script>
+        $(document).ready(function() {
+        });
+    </script>
+{% endblock extra_js %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="active">Complete Reminder</li>
+{% endblock breadcrumbs %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-10 center-span">
+            <form role="form" method="POST" class="basic-reminder-form" action="{% url 'complete' reminder_id=reminder.id %}">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6 center-span">
+                        <div class="popover top visible-popover">
+                            <h3 class="popover-title">Complete Reminder...</h3>
+                            <div class="popover-content">
+                                <p><strong>Are you sure you want to complete the below reminder?</strong></p>
+                                {{ reminder.content|linebreaks|urlize }}
+                            </div>
+                        </div>
+                        <div class="submit-wrap" style="padding-top:20px;">
+                            <button type="submit" class="btn btn-hg btn-primary btn-block">
+                                    <i class="fui-check-inverted"></i> Complete Reminder</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

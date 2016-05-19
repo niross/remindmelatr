@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}Sign Out{% endblock title %}
+{% block extra_css %}
+    <link href="{{ STATIC_URL }}css/remindmelatr.css" rel="stylesheet">
+{% endblock extra_css %}
+{% block extra_js %}
+    <script src="{{ STATIC_URL }}js/bootstrap-typeahead.js"></script>
+    <script src="{{ STATIC_URL }}js/remindmelatr.js"></script>
+{% endblock extra_js %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="active">Sign Out</li>
+{% endblock breadcrumbs %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-6 center-span">
+            <div class="panel panel-success logout-panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{% trans 'Sign Out' %}</h3>
+                </div>
+                <div class="panel-body">
+                    <p>{% trans 'Are you sure you want to sign out?' %}</p>
+                    <form method="post" action="{% url 'account_logout' %}">
+                        {% csrf_token %}
+                        {% if redirect_field_value %}
+                            <input type="hidden" name="{{redirect_field_name}}" value="{{redirect_field_value}}"/>
+                        {% endif %}
+                        <div class="btn-wrap">
+                            <input type="button" class="btn btn-default" value="{% trans "No, take me back" %}"
+                                    onclick="javascript:window.history.back();"/>
+                            <input type="submit" class="btn btn-success" value="{% trans "Yep, I'm sure" %}"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock content %}
+

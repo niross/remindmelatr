@@ -1,0 +1,21 @@
+{% extends 'email_base.html' %}
+{% load tz %}
+{% block title %}Email Confirmation{% endblock title %}
+{% block fbtitle %}Email Confirmation{% endblock fbtitle %}
+{% block content %}
+    <table border="0" cellpadding="20" cellspacing="0" width="100%">
+        <tr>
+            <td valign="top" class="bodyContent">
+                <div mc:edit="std_content00">
+                    <h4 class="h4">Email Confirmation</h4>
+                    <p style="padding-top:15px;">Hi {{ user.username|capfirst }},</p>
+                    <p>Someone (hopefully you) has registered this email address on {{ current_site.name }}.</p>
+                    <p>If it wasn't you who registered you can safely ignore this email and we will leave you alone.</p>
+                    <p>If you did in fact create an account. Please confirm your email address by visiting the link below.</p>
+                    <p>{{ activate_url }}</p>
+                    <p>From your friends at {{ current_site.name }}.</p>
+                </div>
+            </td>
+        </tr>
+    </table>
+{% endblock content %}

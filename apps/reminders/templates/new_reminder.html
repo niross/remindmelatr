@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Add Reminder{% endblock title %}
+{% block extra_css %}
+    <link href="{{ STATIC_URL }}css/remindmelatr.css" rel="stylesheet">
+{% endblock extra_css %}
+{% block extra_js %}
+    <script src="{{ STATIC_URL }}js/bootstrap-typeahead.js"></script>
+    <script src="{{ STATIC_URL }}js/remindmelatr.js"></script>
+{% endblock extra_js %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% if reminder %}
+        <li><a href="{% url 'reminders' %}">Reminders</a></li>
+        <li class="active">Edit</li>
+    {% else %}
+        <li class="active">New</li>
+    {% endif %}
+{% endblock breadcrumbs %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-10 center-span">
+            <form role="form" method="POST" class="basic-reminder-form">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                    <div class="col-md-8 center-span">
+                        <div class="alert alert-danger">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            {{ form.non_field_errors.0 }}
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="row">
+                    <div class="col-md-6 center-span">
+                        <div class="form-group{% if form.remind_on.errors %} has-error{% endif %}">
+                            <label for="id_remind_on">Remind Me On</label>
+                            {{ form.remind_on }}
+                            {% if form.remind_on.errors %}<span class="help-block">{{ form.remind_on.errors.0 }}</span>{% endif %}
+                        </div>
+                        <div class="form-group{% if form.remind_at.errors %} has-error{% endif %}">
+                            <label for="id_remind_at">At</label>
+                            {{ form.remind_at }}
+                            {% if form.remind_at.errors %}<span class="help-block">{{ form.remind_at.errors.0 }}</span>{% endif %}
+                        </div>
+                        <div class="form-group{% if form.content.errors %} has-error{% endif %}">
+                            <label for="id_content">To</label>
+                            {{ form.content }}
+                            {% if form.content.errors %}<span class="help-block">{{ form.content.errors.0 }}</span>{% endif %}
+                        </div>
+                        {% if next %}<input type="hidden" name="next" value="{{ next }}"/>{% endif %}
+                        <div class="clearfix"></div>
+                        <div class="submit-wrap">
+                            <button type="submit" class="btn btn-hg btn-primary btn-block"><i class="fui-time"></i> {% if reminder %}Update{% else %}Create{% endif %} Reminder</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

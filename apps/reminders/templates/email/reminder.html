@@ -1,0 +1,68 @@
+{% extends 'email_base.html' %}
+{% load tz %}
+{% block title %}{{ subject }}{% endblock title %}
+{% block fbtitle %}{{ subject }}{% endblock fbtitle %}
+{% block content %}
+    <table border="0" cellpadding="20" cellspacing="0" width="100%">
+        <tr>
+            <td valign="top" class="bodyContent">
+                {% localtime off %}
+                    <div mc:edit="std_content00">
+                        <h4 class="h4">New reminder from <a href="http://{{ site.domain }}">{{ site.name }}</a></h4>
+                        <p style="padding-top:15px;">Hi {{ reminder.user.username|capfirst }},</p>
+                        <p>At {{ reminder.localised_created|date:"H:i" }} on {{ reminder.localised_created|date:"d/m/y" }}
+     you created a <a href="http://{{ site.domain }}{{ reminder.get_absolute_url }}">reminder</a> on {{ site.name }}.
+                     <p>This reminder was set for <strong>{{ reminder.localised_start|date:"H:i" }}</strong> on <strong>{{ reminder.localised_start|date:"d/m/y" }}</strong> and the content is below.</p>
+                    </div>
+                    <div mc:edit="std_content00" style="margin-left:20px;margin-top:20px;font-weight:700;">
+                        {{ reminder.content|linebreaks }}
+                    </div>
+                {% endlocaltime %}
+            </td>
+        </tr>
+        <tr>
+            <table style="width:100%;padding-top:20px;" border="0" cellpadding="20" cellspacing="0" width="100%">
+                <tr>
+                    <td align="center" valign="top" style="padding-top:0;width:50%;">
+                        <div>
+                            <!--[if mso]>
+                                <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://{{ site.domain }}{% url 'snooze_external' hash_digest=reminder.hash_digest %}" style="height:40px;v-text-anchor:middle;width:250px;" arcsize="10%" stroke="f" fillcolor="#3498DB">
+                                    <w:anchorlock/>
+                                    <center style="color:#ffffff;font-family:sans-serif;font-size:15px;">Snooze Reminder</center>
+                                </v:roundrect>
+                            <![endif]-->
+                            <![if !mso]>
+                                <table cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td align="center" width="250" height="40" bgcolor="#3498DB" style="-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: #ffffff; display: block;">
+                                            <a href="http://{{ site.domain }}{% url 'snooze_external' hash_digest=reminder.hash_digest %}" style="color: #ffffff; font-size:15px; font-family:sans-serif; text-decoration: none; line-height:40px; width:100%; display:inline-block">Snooze Reminder</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            <![endif]>
+                        </div>
+                    </td>
+                    <td align="center" valign="top" style="padding-top:0;width:50%;">
+                        <div>
+                            <!--[if mso]>
+                                <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://{{ site.domain }}{% url 'confirm_complete_external' hash_digest=reminder.hash_digest %}" style="height:40px;v-text-anchor:middle;width:250px;" arcsize="10%" stroke="f" fillcolor="#58D68D">
+                                    <w:anchorlock/>
+                                    <center style="color:#ffffff;font-family:sans-serif;font-size:15px;">Complete Reminder</center>
+                                </v:roundrect>
+                            <![endif]-->
+                            <![if !mso]>
+                                <table cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td align="center" width="250" height="40" bgcolor="#58D68D" style="-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: #ffffff; display: block;">
+                                            <a href="http://{{ site.domain }}{% url 'confirm_complete_external' hash_digest=reminder.hash_digest %}" style="color: #ffffff; font-size:15px; font-family:sans-serif; text-decoration: none; line-height:40px; width:100%; display:inline-block">Complete Reminder</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            <![endif]>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </tr>
+    </table>
+{% endblock content %}

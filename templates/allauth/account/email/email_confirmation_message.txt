@@ -1,0 +1,15 @@
+{% load account %}
+{% load i18n %}
+{% autoescape off %}
+Hi {{ user.username }},
+
+Someone (hopefully you) has registered this email address on {{ current_site.name }}.
+
+If it wasn't you who registered you can safely ignore this email and we will leave you alone.
+
+If you did in fact create an account. Please confirm your email address by visiting the link below.
+
+{{ activate_url }}
+
+From your friends at {{ current_site.name }}.
+{% endautoescape %}

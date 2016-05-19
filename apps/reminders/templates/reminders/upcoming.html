@@ -1,0 +1,69 @@
+{% extends 'reminders/reminders_base.html' %}
+{% block title %}Upcoming Reminders{% endblock title %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="active">Reminders</li>
+{% endblock breadcrumbs %}
+{% block tab_headers %}
+    {% include 'reminders/tabs.html' with tab='upcoming' %}
+{% endblock tab_headers %}
+{% block table %}
+    {% for reminder in reminders %}
+        <tr class="tip" id="{{ reminder.id }}">
+            <td>
+                <label class="checkbox no-label" for="checkbox-table-{{ forloop.counter }}">
+                    <span class="icons">
+                        <span class="first-icon fui-checkbox-unchecked"></span>
+                        <span class="second-icon fui-checkbox-checked"></span>
+                    </span>
+                    <input type="checkbox" value="" id="checkbox-table-{{ forloop.counter }}" data-toggle="checkbox">
+                </label>
+            </td>
+            <td>{{ reminder.listing_message|capfirst }}</td>
+            <td><a href="{% url 'reminder' reminder_id=reminder.id %}">{{ reminder.content|truncatechars:65 }}</a></td>
+            <td>{% if reminder.snooze_count > 0 %}{{ reminder.snooze_count }} time{{ reminder.snooze_count|pluralize }}{% else %}Never{% endif %}</td>
+            <td class="button-cell">
+                <a href="{% url 'complete' reminder_id=reminder.id %}?next={{ request.path }}" class="list-button" title="Complete reminder">
+                    <span class="fui-check-inverted text-primary"></span>
+                </a>
+                <a href="{% url 'pause' reminder_id=reminder.id %}?next={{ request.path }}" class="list-button" title="Pause reminder">
+                    <span class="fui-pause text-primary"></span>
+                </a>
+                <a href="{% url 'edit' reminder_id=reminder.id %}?next={{ request.path }}" class="list-button" title="Edit reminder">
+                    <span class="fui-new text-primary"></span>
+                </a>
+                <a href="{% url 'delete' reminder_id=reminder.id %}?next={{ request.path }}" class="list-button" title="Delete reminder">
+                    <span class="fui-trash text-primary"></span>
+                </a>
+            </td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="5" class="text-center">You don't have any upcoming reminders. <a href="{% url 'new' %}">Create some now!</a></td>
+        </tr>
+    {% endfor %}
+{% endblock table %}
+{% block buttons %}
+    <div class="pull-left">
+        <form method="POST" action="{% url 'delete_multiple' %}" class="button-form">
+            {% csrf_token %}
+            <input type="hidden" name="reminder_ids" id="reminder_ids" />
+            <input type="hidden" name="next" value="{{ request.path }}" />
+            <button class="btn btn-danger disabled multi-button delete-reminders"><span class="fui-trash"></span> Delete Reminders</button>
+        </form>
+    </div>
+    <div class="pull-right">
+        <form method="POST" action="{% url 'pause_multiple' %}" class="button-form">
+            {% csrf_token %}
+            <input type="hidden" name="reminder_ids" id="reminder_ids" />
+            <input type="hidden" name="next" value="{{ request.path }}" />
+            <button class="btn btn-info disabled multi-button complete-reminders"><span class="fui-pause"></span> Pause Reminders</button>
+        </form>
+        <form method="POST" action="{% url 'complete_multiple' %}" class="button-form">
+            {% csrf_token %}
+            <input type="hidden" name="reminder_ids" id="reminder_ids" />
+            <input type="hidden" name="next" value="{{ request.path }}" />
+            <button class="btn btn-primary disabled multi-button complete-reminders"><span class="fui-check-inverted"></span> Complete Reminders</button>
+        </form>
+    </div>
+{% endblock buttons %}

@@ -1,0 +1,65 @@
+# Django stuff
+Django==1.9
+
+# Templates
+Markdown
+django_compressor
+
+# Security
+bleach
+#cef
+
+# Logging
+#raven
+
+# Celery: Message queue
+celery
+django-celery
+
+# L10n/i18n
+#Babel
+#-e git://github.com/clouserw/tower.git#egg=tower
+
+# Caching
+python-memcached
+
+# Admin
+
+# Feature testing
+#django-waffle
+
+# Various tidbits
+commonware
+-e git://github.com/mozilla/nuggets.git#egg=nuggets
+
+# django-braces
+django-braces
+
+# bootstrap toolkit
+django-bootstrap-toolkit
+
+# Postgres
+psycopg2
+
+# Amazon simple email service
+django-ses
+
+# Imaging
+pillow
+sorl-thumbnail
+
+# Tagging
+django-tagging
+
+django-avatar
+
+django-allauth
+-e git://github.com/pennersr/django-allauth#egg=allauth
+
+python-dateutil
+
+supervisor
+
+djangorestframework
+django-filter
+django-environ

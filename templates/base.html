@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock title %} - {{ site.name }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block description %}{% endblock description %}">
+
+    <!-- Loading Bootstrap -->
+    <link href="{{ STATIC_URL }}css/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Loading Font Awesome -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <!-- Loading Flat UI -->
+    <link href="{{ STATIC_URL }}css/flat-ui.css" rel="stylesheet">
+
+    <!-- Contact app -->
+    <link href="{{ STATIC_URL }}css/contact.css" rel="stylesheet">
+
+    <!-- Google fonts -->
+	<link href='//fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+    <!--<link href='http://fonts.googleapis.com/css?family=Molle:400italic' rel='stylesheet' type='text/css'>-->
+
+    <link href="{{ STATIC_URL }}css/site.css" rel="stylesheet">
+
+    <!-- TODO - favicon -->
+    <link rel="shortcut icon" href="{{ STATIC_URL }}images/icons/Watches_2x.png">
+
+    {% block extra_css %}{% endblock extra_css %}
+
+    {% if not debug %}
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    {% endif %}
+    <script>window.jQuery || document.write('<script src="{{ STATIC_URL }}js/jquery-1.8.3.min.js"><\/script>')</script>
+
+    <!-- EU Cookie Warning needs to run in head -->
+    {% if not user.is_authenticated %}
+        <link href="{{ STATIC_URL }}js/cookie-cuttr/cookiecuttr.css" rel="stylesheet">
+        <script src="{{ STATIC_URL }}js/cookie-cuttr/jquery.cookie.js"></script>
+        <script src="{{ STATIC_URL }}js/cookie-cuttr/jquery.cookiecuttr.js"></script>
+        <script>$(document).ready(function() { $.cookieCuttr(); });</script>
+    {% endif %}
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="{{ STATIC_URL }}js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+  <body class="{% block page_class %}{% endblock page_class %}">
+    <div class="page-wrap">
+        {% include 'header.html' %}
+        {% block pre %}{% endblock pre %}
+        <div class="container">
+            <div class="content-wrap">
+                <ul class="breadcrumb">
+                    {% block breadcrumbs %}
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'dashboard' %}">Home</a></li>
+                        {% else %}
+                            <li><a href="{% url 'home' %}">Home</a></li>
+                        {% endif %}
+                    {% endblock breadcrumbs %}
+                </ul>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="row">
+                            <div class="col-md-6 center-span">
+                                <div class="alert alert-{{ message.tags }}">
+                                    <button class="close fui-cross" data-dismiss="alert"></button>
+                                    <p>{{ message|safe }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                    {% url 'settings' as settings_url %}
+                    {% if not user.timezone and request.path != settings_url %}
+                        <div class="row">
+                            <div class="col-lg-6 center-span">
+                                <div class="alert alert-error timezone-error">
+                                    <button type="button" class="close fui-cross" data-dismiss="alert"></button>
+                                    <h4>Warning: Invalid Timezone.</h4>
+                                    <p>You have not set a timezone yet. If we don't know your timezone we won't know when to remind you of things.</p>
+                                    <div class="alert-buttons">
+                                        <a href="{% url 'settings' %}" class="btn btn-danger btn-wide">Update it now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+
+                {% block content %}
+                {% endblock content %}
+            </div>
+        </div> <!-- /container -->
+        {% block post %}{% endblock post %}
+    </div>
+    {% include 'footer.html' %}
+
+    {% if user.is_authenticated %}
+        {% include 'contact_popup.html' %}
+    {% endif %}
+
+    <!-- Load JS here for greater good =============================-->
+    <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap-switch.js"></script>
+    <script src="{{ STATIC_URL }}js/flatui-checkbox.js"></script>
+    <script src="{{ STATIC_URL }}js/flatui-radio.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery.tagsinput.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery.placeholder.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery.stacktable.js"></script>
+    <script src="{{ STATIC_URL }}js/application.js"></script>
+    <script src="{{ STATIC_URL }}js/site.js"></script>
+    <script src="{{ STATIC_URL }}js/contact.js"></script>
+    {% if user.is_authenticated %}
+        <script src="{{ STATIC_URL }}js/notification.js"></script>
+    {% endif %}
+
+    <script>
+        $(document).ready(function() {
+            $('a[rel=tooltip]').tooltip();
+        });
+    </script>
+    <!-- TODO - google analytics -->
+    {% if not request.user.is_staff and not debug %}
+        <script>//(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');    ga('create', 'UA-43584434-1', 'offshore-careers.com');   ga('send', 'pageview');  </script>
+    {% endif %}
+    {% block extra_js %}{% endblock extra_js %}
+  </body>
+</html>

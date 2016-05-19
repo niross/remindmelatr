@@ -1,0 +1,83 @@
+.nav-list {
+    margin-top: 5px;
+}
+h5 {
+    font-size: 25px;
+}
+h5 {
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+.messages tr.unread {
+    font-weight: bold;
+}
+.messages .fa-mail-reply, .messages .fa-eye {
+    color: #a1a6a9;
+}
+.messages tr.no-messages {
+    text-align: center;
+}
+.messages .glyphicon {
+    font-size: 17px;
+}
+.messages form {
+    margin-top: 10px;
+}
+.message-display {
+    list-style-type: none;
+}
+.message-display .message {
+    position: relative;
+    background: #eee;
+    margin-right: 20px;
+    padding: 10px;
+    margin-left: 60px;
+    font-size: 14px;
+}
+.message-display .caret {
+    position: absolute;
+    left: -8px;
+    top: 10px;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-right: 7px solid #eee;
+    border-left: 0;
+}
+.message-display >li.right .caret {
+    left: auto;
+    right: -7px;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-left: 7px solid #d1e5f8;
+    border-right: 0;
+}
+.message-display .message .name, .message-display .message .subject {
+    font-weight: bold;
+    display: block;
+}
+.message-display .message p {
+    margin-left: 5px;
+}
+.message-display .message .time {
+    color: gray;
+    font-size: 12px;
+    display: block;
+}
+.message-display .message p {
+    font-size: 14px;
+}
+.message-display > li.right .message {
+    background: #d1e5f8;
+    margin-left: 20px;
+    margin-right: 0;
+    margin-right: 60px;
+}
+.message-display .left .image {
+    float: left;
+}
+.message-display .right .image {
+    float: right;
+}
+.message-display li {
+    margin-top: 20px;
+}
