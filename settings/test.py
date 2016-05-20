@@ -8,6 +8,8 @@ from .common import *
 DEBUG = False
 TEMPLATE_DEBUG = False
 
+ADMINS = (('test', 'test@test.com'),)
+
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 TEST_DISCOVER_TOP_LEVEL = PROJECT_ROOT
