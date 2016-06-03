@@ -92,7 +92,7 @@
 }
 @media(max-width: 480px) {
     .home-jumbotron {
-        height: 355px;
+        height: 400px;
     }
     .jumbo-text h1 {
         font-size: 28px;
@@ -121,6 +121,9 @@
     }
     .img-panel img {
         max-width: 330px;
+    }
+    .login-action > a {
+        display: block;
     }
 }
 @media(max-width: 320px) {
