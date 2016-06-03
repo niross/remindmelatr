@@ -63,3 +63,5 @@ supervisor
 djangorestframework
 django-filter
 django-environ
+
+kombu
